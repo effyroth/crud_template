@@ -1,0 +1,10 @@
+.label-name{
+	margin-left: 100px; 
+    width: 200px;
+}
+.new-update-title{
+	margin-left: 75px; 
+}
+input[type="text"]{
+	height: 30px;
+}

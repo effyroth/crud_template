@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:util="http://www.springframework.org/schema/util"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <util:properties id="dataSourceProps" location="classpath:/jdbc.properties"/>
+
+    <bean id="dbEffyroth" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="#{dataSourceProps['jdbc.driverClassName']}"/>
+        <property name="url" value="#{dataSourceProps['jdbc.url']}"/>
+        <property name="username" value="#{dataSourceProps['jdbc.username']}"/>
+        <property name="password" value="#{dataSourceProps['jdbc.password']}"/>
+        <property name="initialSize" value="#{dataSourceProps['jdbc.pool.initialSize']}"/>
+        <property name="maxTotal" value="#{dataSourceProps['jdbc.pool.maxTotal']}"/>
+        <property name="maxIdle" value="#{dataSourceProps['jdbc.pool.maxIdle']}"/>
+        <property name="minIdle" value="#{dataSourceProps['jdbc.pool.minIdle']}"/>
+        <property name="maxWaitMillis" value="#{dataSourceProps['jdbc.pool.maxWait']}"/>
+
+        <property name="testWhileIdle" value="true"/>
+        <property name="testOnBorrow" value="false"/>
+        <property name="testOnReturn" value="false"/>
+        <property name="validationQuery" value="select current_date()"/>
+        <property name="validationQueryTimeout" value="1"/>
+        <property name="timeBetweenEvictionRunsMillis" value="60000"/>
+        <property name="numTestsPerEvictionRun" value="10"/>
+        <property name="minEvictableIdleTimeMillis" value="1800000"/>
+        <property name="removeAbandonedOnBorrow" value="false"/>
+        <property name="removeAbandonedOnMaintenance" value="true"/>
+        <property name="removeAbandonedTimeout" value="180"/>
+    </bean>
+
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource">
+            <ref bean="dataSource" />
+        </property>
+    </bean>
+
+    <bean id="mappings"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations" value="classpath:jdbc.properties"></property>
+    </bean>
+
+    <bean id="dataSource"
+          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="${jdbc.driverClassName}" />
+        <property name="url" value="${jdbc.url}" />
+        <property name="username" value="${jdbc.username}" />
+        <property name="password" value="${jdbc.password}" />
+    </bean>
+
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="configLocation" value="./WEB-INF/mybatis-config.xml"></property>
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+
+    <!-- 配置扫描Mapper接口的包路径 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <!-- 如果是多个包名可用",; \t\n"中任意符号分隔开，详见：MapperScannerConfigurer[269行] -->
+        <property name="basePackage" value="com.effyroth.generate.dao"/>
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+    </bean>
+
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.effyroth.generate.dao" />
+    </bean>
+
+    <!-- annotation transaction manager -->
+    <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <tx:annotation-driven transaction-manager="txManager"/>
+</beans>
