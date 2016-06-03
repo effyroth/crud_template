@@ -19,17 +19,17 @@ public interface ${ClassName}Dao {
     @Select("select * from " + tableName)
 	List<${ClassName}> getAll();
 
-    @Select("select " + allField + " from " + tableName + " where ${primaryKey} = #{${primaryKey}}")
-	${ClassName} getBy${PrimaryKey}(@Param("${primaryKey}") ${primaryKeyType} ${primaryKey});
+    @Select("select " + allField + " from " + tableName + " where ${primary_key} = #{${primary_key}}")
+	${ClassName} getBy${PrimaryKey}(@Param("${primary_key}") ${primaryKeyType} ${primaryKey});
 
     @Insert("insert into " + tableName + " (" + allFieldNoId + ") " + " values (" + allFieldModNoId +  ")")
     @Options(useGeneratedKeys = true)
 	void insert(${ClassName} ${className});
 
-    @Update("update " + tableName + " set " + allFieldForUpdateMod  + " where ${primaryKey} = #{${primaryKey}}")
+    @Update("update " + tableName + " set " + allFieldForUpdateMod  + " where ${primary_key} = #{${primary_key}}")
 	void update(${ClassName} ${className});
 
-    @Delete("delete from " + tableName + " where ${primaryKey} = #{${primaryKey}}")
-	void delete(@Param("${primaryKey}") ${primaryKeyType} ${primaryKey});
+    @Delete("delete from " + tableName + " where ${primary_key} = #{${primary_key}}")
+	void delete(@Param("${primary_key}") ${primaryKeyType} ${primaryKey});
 
 }

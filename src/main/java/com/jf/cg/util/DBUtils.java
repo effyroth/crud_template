@@ -186,7 +186,7 @@ public class DBUtils {
 	                dataType="String";
 	                break;
 		        case Types.INTEGER:    //4
-		        	dataType="Integer";
+		        	dataType="Long";
 		        	break;
 		        case Types.BIT:    //-7
 		        	dataType="Integer";

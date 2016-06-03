@@ -23,6 +23,7 @@ public class BaseGenerator {
 		String packageName = PropertiesUtils.getPackage();
 		String primaryKeyType = pMap.get("primaryKeyType");
 		String primaryKey = StringUtils.format(pMap.get("primaryKey"));
+		String primary_key = pMap.get("primaryKey");
 		String PrimaryKey = StringUtils.firstUpperNoFormat(primaryKey);
 		if(primaryKey!=null){
 			replacedContent = content.replaceAll("[$][{]ClassName}", ClassName)
@@ -30,6 +31,7 @@ public class BaseGenerator {
 					.replaceAll("[$][{]packageName}", packageName)
 					.replaceAll("[$][{]primaryKeyType}", primaryKeyType)
 					.replaceAll("[$][{]}", primaryKeyType)
+					.replaceAll("[$][{]primary_key}", primary_key)
 					.replaceAll("[$][{]primaryKey}", primaryKey)
 					.replaceAll("[$][{]PrimaryKey}", PrimaryKey)
 					.replaceAll("[$][{]tableName}", tableName)
