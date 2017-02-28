@@ -4,17 +4,17 @@
 <html>
     <head>
         <title>cg-project</title>
-        <link rel="stylesheet" href="./assets/css/import.css" type="text/css" />
-        <script src="./assets/js/jquery-1.9.1.js" type="text/javascript"></script>
+        <link rel="stylesheet" href="/assets/css/import.css" type="text/css" />
+        <script src="/assets/js/jquery-1.9.1.js" type="text/javascript"></script>
         <script type="text/javascript">
            var item = "${className}";
         </script>
-        <script src="./assets/js/cg-form.js" type="text/javascript"></script>
+        <script src="/assets/js/cg-form.js" type="text/javascript"></script>
     </head>
     <body>
         <section class="form-section">
             <h4 class="new-update-title" >New/Update</h4>
-			<form class="cg-form form-horizontal" action="${className}/create" data-update="${className}/update" data-delete="${className}/delete">
+			<form class="cg-form form-horizontal" action="create" data-update="update" data-delete="delete">
 			  <input type="hidden" value="" id="update-id" name="${primaryKey}"/>
 ${cgForm}
 			  <div class="control-group">
